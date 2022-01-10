@@ -3,7 +3,15 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:peru_education_movement/configure_web.dart';
-import 'package:peru_education_movement/constants.dart';
+import 'package:peru_education_movement/mainScreens/aboutUs.dart';
+import 'package:peru_education_movement/mainScreens/curriculum.dart';
+import 'package:peru_education_movement/mainScreens/signUp.dart';
+import 'package:peru_education_movement/mainScreens/tutors.dart';
+import 'package:peru_education_movement/others/constants.dart';
+import 'package:peru_education_movement/others/pageNotFound.dart';
+import 'package:peru_education_movement/others/signUpCompleted.dart';
+import 'package:peru_education_movement/others/styles.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() {
   configureApp();
@@ -23,6 +31,19 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.openSansTextTheme(),
         primaryColor: Colors.red[400],
       ),
+      routes: {
+        '/home': (contact) => HomeScreen(),
+        '/about-us': (context) => AboutUs(),
+        '/curriculum': (context) => Curriculum(),
+        '/tutors': (context) => Tutors(),
+        '/sign-up': (context) => SignUp(),
+        '/sign-up/thank-you': (context) => SignUpCompleted(),
+      },
+      onUnknownRoute: (settings) {
+        return MaterialPageRoute(builder: (context) {
+          return PageNotFound();
+        });
+      },
       home: const HomeScreen(),
     );
   }
@@ -41,6 +62,13 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
+  void _launchMailClient() async {
+    const mailUrl = 'mailto:perueducationmovement@gmail.com';
+    try {
+      await launch(mailUrl);
+    } catch (e) {}
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -57,19 +85,88 @@ class _HomeScreenState extends State<HomeScreen> {
       title: "Peru Education Movement",
       color: Colors.black,
       child: Scaffold(
+        drawer: size.width < 400
+            ? Drawer(
+                child: ListView.builder(
+                  itemBuilder: (BuildContext context, int index) {
+                    if (index == 0) {
+                      return Column(
+                        children: [
+                          FittedBox(
+                              child: Image.asset(
+                            'assets/pem_logo.png',
+                            width: size.width * 0.5,
+                          )),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: size.height * 0.02),
+                            child: ListTile(
+                              title: Text("${drawerTitles[index]}"),
+                              onTap: () {
+                                Navigator.of(context)
+                                    .pushNamed('${drawerOnTap[index]}');
+                              },
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                    return Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: size.height * 0.02),
+                      child: ListTile(
+                        title: Text("${drawerTitles[index]}"),
+                        onTap: () {
+                          Navigator.of(context)
+                              .pushNamed('${drawerOnTap[index]}');
+                        },
+                      ),
+                    );
+                  },
+                  itemCount: drawerTitles.length,
+                ),
+              )
+            : null,
         body: AnimateIfVisibleWrapper(
           child: CustomScrollView(
             slivers: [
               SliverAppBar(
                 elevation: 0,
-                leading: FittedBox(child: Image.asset("assets/pem_logo.png")),
+                leading: size.width < 400
+                    ? null
+                    : FittedBox(child: Image.asset("assets/pem_logo.png")),
                 pinned: true,
-                floating: true,
                 backgroundColor: Colors.grey[500],
-                expandedHeight: size.height * 0.6,
-                actions: navBarActions,
+                expandedHeight: size.height,
+                actions: size.width < 400 ? null : navBarActions,
                 flexibleSpace: FlexibleSpaceBar(
-                  title: Text("Peru Education Movement"),
+                  title: RichText(
+                    textAlign: TextAlign.justify,
+                    text: TextSpan(
+                      style: TextStyle(
+                        fontSize: size.longestSide * 0.02,
+                        color: mainColor,
+                      ),
+                      children: [
+                        TextSpan(
+                            text: "Peru ",
+                            style: TextStyle(
+                              color: Colors.white70,
+                            )),
+                        TextSpan(
+                          text: "Education ",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        TextSpan(
+                            text: "Movement",
+                            style: TextStyle(
+                              color: Colors.white70,
+                            )),
+                      ],
+                    ),
+                  ),
                   centerTitle: false,
                   collapseMode: CollapseMode.pin,
                   background: IgnorePointer(
@@ -110,21 +207,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               SliverList(
                 delegate: SliverChildListDelegate([
+                  //About Us Screen
                   Container(
                     height: size.height,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[400],
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        colorFilter: ColorFilter.mode(
-                          mainColor.withOpacity(0.6),
-                          BlendMode.dstATop,
-                        ),
-                        image: AssetImage(
-                          'assets/books_with_graduation_hat.jpg',
-                        ),
-                      ),
-                    ),
+                    decoration: buildBackgroundDecoration(),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -143,15 +229,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Animation<double> animation,
                                 ) =>
                                     FadeTransition(
-                                  opacity: Tween<double>(
-                                    begin: 0,
-                                    end: 1,
-                                  ).animate(animation),
+                                  opacity: buildFadeTween().animate(animation),
                                   child: RichText(
                                     textAlign: TextAlign.justify,
                                     text: TextSpan(
                                       style: TextStyle(
-                                        fontSize: size.longestSide * 0.04,
+                                        fontSize: size.longestSide * 0.043,
                                         color: mainColor,
                                       ),
                                       children: [
@@ -171,20 +254,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
-                                width: size.width * 0.06,
-                                height: size.height * 0.03,
-                              ),
+                              ContainerSizedBox(),
                               Container(
-                                width: size.width < 300
-                                    ? size.width * 0.2
+                                width: size.width < 400
+                                    ? size.width * 0.6
                                     : size.width * 0.3,
                                 child: Text(
-                                  "Along with traditional book discussions, we host activity meetings where YOU will have the opportunity to participate in creative writing, win fun prizes in book-related trivia competitions, and plan community-oriented activities.",
+                                  "$lorem",
                                   textAlign: TextAlign.justify,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
-                                    fontSize: size.longestSide * 0.013,
+                                    fontSize: size.longestSide * 0.015,
                                     color: Colors.white,
                                   ),
                                 ),
@@ -197,18 +277,202 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Text(
                               "About Us",
                               style: TextStyle(
-                                fontSize: size.longestSide * 0.013,
+                                fontSize: size.longestSide * 0.015,
                                 backgroundColor: Colors.transparent,
                                 color: Colors.white,
                               ),
                             ),
-                            style: OutlinedButton.styleFrom(
-                              backgroundColor: mainColor,
-                              elevation: 0,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
+                            style: buildHomeButtonStyle(),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  //Why Us Screen
+                  Container(
+                    height: size.height,
+                    decoration: buildBackgroundDecoration(),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Flex(
+                            verticalDirection: VerticalDirection.up,
+                            direction: size.width < 400
+                                ? Axis.vertical
+                                : Axis.horizontal,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: size.width < 400
+                                    ? size.width * 0.6
+                                    : size.width * 0.3,
+                                child: Text(
+                                  "$lorem",
+                                  textAlign: TextAlign.justify,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: size.longestSide * 0.015,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              ContainerSizedBox(),
+                              AnimateIfVisible(
+                                key: Key('item5'),
+                                duration: Duration(milliseconds: 500),
+                                builder: (
+                                  context,
+                                  Animation<double> animation,
+                                ) =>
+                                    FadeTransition(
+                                  opacity: buildFadeTween().animate(animation),
+                                  child: RichText(
+                                    textAlign: TextAlign.justify,
+                                    text: TextSpan(
+                                      style: TextStyle(
+                                        fontSize: size.longestSide * 0.043,
+                                        color: mainColor,
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                            text: "Why ",
+                                            style: TextStyle(
+                                              color: Colors.white70,
+                                            )),
+                                        TextSpan(
+                                          text: "Us",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ]),
+                        Padding(
+                          padding: EdgeInsets.only(top: size.height * 0.05),
+                          child: OutlinedButton(
+                            onPressed: () {},
+                            child: Text(
+                              "Why Us",
+                              style: TextStyle(
+                                fontSize: size.longestSide * 0.015,
+                                backgroundColor: Colors.transparent,
+                                color: Colors.white,
                               ),
                             ),
+                            style: buildHomeButtonStyle(),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  //3 Cards Container
+                  Container(
+                    height: size.height,
+                    decoration: buildBackgroundDecoration(),
+                    child: Flex(
+                      direction:
+                          size.width < 400 ? Axis.vertical : Axis.horizontal,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        HomePageCard(
+                          keyString: 'item1',
+                          title: 'Sign Up',
+                          imagePath: 'assets/books_with_graduation_hat.jpg',
+                          onTap: () {},
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(20),
+                          child: HomePageCard(
+                            keyString: 'item2',
+                            title: 'Our\nCurriculum',
+                            imagePath: 'assets/books_with_graduation_hat.jpg',
+                            onTap: () {},
+                          ),
+                        ),
+                        HomePageCard(
+                          keyString: 'item3',
+                          title: 'Our Tutors',
+                          imagePath: 'assets/books_with_graduation_hat.jpg',
+                          onTap: () {},
+                        ),
+                      ],
+                    ),
+                  ),
+                  //Contact Us Screen
+                  Container(
+                    height: size.height,
+                    decoration: buildBackgroundDecoration(),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        AnimateIfVisible(
+                          key: Key('item6'),
+                          duration: Duration(milliseconds: 500),
+                          builder: (
+                            context,
+                            Animation<double> animation,
+                          ) =>
+                              FadeTransition(
+                            opacity: buildFadeTween().animate(animation),
+                            child: RichText(
+                              textAlign: TextAlign.justify,
+                              text: TextSpan(
+                                style: TextStyle(
+                                  fontSize: size.longestSide * 0.043,
+                                  color: mainColor,
+                                ),
+                                children: [
+                                  TextSpan(
+                                      text: "Contact ",
+                                      style: TextStyle(
+                                        color: Colors.white70,
+                                      )),
+                                  TextSpan(
+                                    text: "Us",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        ContainerSizedBox(),
+                        Container(
+                          width: size.width < 400
+                              ? size.width * 0.6
+                              : size.width * 0.3,
+                          child: Text(
+                            "Feel free to reach out with any questions using any of the links below!",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: size.longestSide * 0.015,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: size.longestSide * 0.02),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  _launchMailClient();
+                                },
+                                color: Colors.grey[300],
+                                icon: Icon(Icons.mail_outlined),
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -217,6 +481,119 @@ class _HomeScreenState extends State<HomeScreen> {
                 ]),
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Tween<double> buildFadeTween() {
+    return Tween<double>(
+      begin: 0,
+      end: 1,
+    );
+  }
+
+  ButtonStyle buildHomeButtonStyle() {
+    return OutlinedButton.styleFrom(
+      backgroundColor: mainColor,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+    );
+  }
+
+  BoxDecoration buildBackgroundDecoration() {
+    return BoxDecoration(
+      color: Colors.grey[400],
+      image: DecorationImage(
+        fit: BoxFit.cover,
+        colorFilter: ColorFilter.mode(
+          mainColor.withOpacity(0.6),
+          BlendMode.dstATop,
+        ),
+        image: AssetImage(
+          'assets/books_with_graduation_hat.jpg',
+        ),
+      ),
+    );
+  }
+}
+
+class ContainerSizedBox extends StatelessWidget {
+  const ContainerSizedBox({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return SizedBox(
+      width: size.width * 0.06,
+      height: size.height * 0.03,
+    );
+  }
+}
+
+class HomePageCard extends StatelessWidget {
+  const HomePageCard({
+    Key? key,
+    required this.keyString,
+    required this.imagePath,
+    required this.onTap,
+    required this.title,
+  }) : super(key: key);
+
+  final String keyString;
+  final String imagePath;
+  final VoidCallback onTap;
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return AnimateIfVisible(
+      key: Key(keyString),
+      duration: Duration(milliseconds: 700),
+      builder: (
+        context,
+        Animation<double> animation,
+      ) =>
+          SlideTransition(
+        position: Tween<Offset>(
+          begin: Offset(0, -0.3),
+          end: Offset.zero,
+        ).animate(animation),
+        child: GestureDetector(
+          onTap: onTap,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.grey[400],
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                colorFilter: ColorFilter.mode(
+                  mainColor.withOpacity(0.6),
+                  BlendMode.dstATop,
+                ),
+                image: AssetImage(
+                  '$imagePath',
+                ),
+              ),
+            ),
+            height: size.width < 400 ? size.height * 0.25 : size.height * 0.5,
+            width: size.width < 400 ? size.width * 0.9 : size.width * 0.3,
+            child: Center(
+              child: Text(
+                "$title",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: size.longestSide * 0.015,
+                  color: Colors.white,
+                ),
+              ),
+            ),
           ),
         ),
       ),
