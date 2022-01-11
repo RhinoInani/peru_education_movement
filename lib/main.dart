@@ -85,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
       title: "Peru Education Movement",
       color: Colors.black,
       child: Scaffold(
-        drawer: size.width < 400
+        drawer: size.width < 450
             ? Drawer(
                 child: ListView.builder(
                   itemBuilder: (BuildContext context, int index) {
@@ -132,13 +132,13 @@ class _HomeScreenState extends State<HomeScreen> {
             slivers: [
               SliverAppBar(
                 elevation: 0,
-                leading: size.width < 400
+                leading: size.width < 450
                     ? null
                     : FittedBox(child: Image.asset("assets/pem_logo.png")),
                 pinned: true,
                 backgroundColor: Colors.grey[500],
                 expandedHeight: size.height,
-                actions: size.width < 400 ? null : navBarActions,
+                actions: size.width < 450 ? null : navBarActions,
                 flexibleSpace: FlexibleSpaceBar(
                   title: RichText(
                     textAlign: TextAlign.justify,
@@ -215,7 +215,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Flex(
-                            direction: size.width < 400
+                            direction: size.width < 450
                                 ? Axis.vertical
                                 : Axis.horizontal,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -256,7 +256,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               ContainerSizedBox(),
                               Container(
-                                width: size.width < 400
+                                width: size.width < 450
                                     ? size.width * 0.6
                                     : size.width * 0.3,
                                 child: Text(
@@ -273,7 +273,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         Padding(
                           padding: EdgeInsets.only(top: size.height * 0.05),
                           child: OutlinedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).pushNamed('/about-us');
+                            },
                             child: Text(
                               "About Us",
                               style: TextStyle(
@@ -297,14 +299,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         Flex(
                             verticalDirection: VerticalDirection.up,
-                            direction: size.width < 400
+                            direction: size.width < 450
                                 ? Axis.vertical
                                 : Axis.horizontal,
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
-                                width: size.width < 400
+                                width: size.width < 450
                                     ? size.width * 0.6
                                     : size.width * 0.3,
                                 child: Text(
@@ -352,21 +354,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                             ]),
-                        Padding(
-                          padding: EdgeInsets.only(top: size.height * 0.05),
-                          child: OutlinedButton(
-                            onPressed: () {},
-                            child: Text(
-                              "Why Us",
-                              style: TextStyle(
-                                fontSize: size.longestSide * 0.015,
-                                backgroundColor: Colors.transparent,
-                                color: Colors.white,
-                              ),
-                            ),
-                            style: buildHomeButtonStyle(),
-                          ),
-                        ),
+                        // Padding(
+                        //   padding: EdgeInsets.only(top: size.height * 0.05),
+                        //   child: OutlinedButton(
+                        //     onPressed: () {},
+                        //     child: Text(
+                        //       "Why Us",
+                        //       style: TextStyle(
+                        //         fontSize: size.longestSide * 0.015,
+                        //         backgroundColor: Colors.transparent,
+                        //         color: Colors.white,
+                        //       ),
+                        //     ),
+                        //     style: buildHomeButtonStyle(),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
@@ -376,7 +378,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     decoration: buildBackgroundDecoration(),
                     child: Flex(
                       direction:
-                          size.width < 400 ? Axis.vertical : Axis.horizontal,
+                          size.width < 450 ? Axis.vertical : Axis.horizontal,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -384,7 +386,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           keyString: 'item1',
                           title: 'Sign Up',
                           imagePath: 'assets/books_with_graduation_hat.jpg',
-                          onTap: () {},
+                          location: 'sign-up',
                         ),
                         Padding(
                           padding: EdgeInsets.all(20),
@@ -392,14 +394,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             keyString: 'item2',
                             title: 'Our\nCurriculum',
                             imagePath: 'assets/books_with_graduation_hat.jpg',
-                            onTap: () {},
+                            location: 'curriculum',
                           ),
                         ),
                         HomePageCard(
                           keyString: 'item3',
                           title: 'Our Tutors',
                           imagePath: 'assets/books_with_graduation_hat.jpg',
-                          onTap: () {},
+                          location: 'tutors',
                         ),
                       ],
                     ),
@@ -446,7 +448,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         ContainerSizedBox(),
                         Container(
-                          width: size.width < 400
+                          width: size.width < 450
                               ? size.width * 0.6
                               : size.width * 0.3,
                           child: Text(
@@ -506,7 +508,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   BoxDecoration buildBackgroundDecoration() {
     return BoxDecoration(
-      color: Colors.grey[400],
+      color: Colors.grey[450],
       image: DecorationImage(
         fit: BoxFit.cover,
         colorFilter: ColorFilter.mode(
@@ -541,13 +543,13 @@ class HomePageCard extends StatelessWidget {
     Key? key,
     required this.keyString,
     required this.imagePath,
-    required this.onTap,
+    required this.location,
     required this.title,
   }) : super(key: key);
 
   final String keyString;
   final String imagePath;
-  final VoidCallback onTap;
+  final String location;
   final String title;
 
   @override
@@ -566,7 +568,9 @@ class HomePageCard extends StatelessWidget {
           end: Offset.zero,
         ).animate(animation),
         child: GestureDetector(
-          onTap: onTap,
+          onTap: () {
+            Navigator.of(context).pushNamed('/$location');
+          },
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
@@ -582,8 +586,8 @@ class HomePageCard extends StatelessWidget {
                 ),
               ),
             ),
-            height: size.width < 400 ? size.height * 0.25 : size.height * 0.5,
-            width: size.width < 400 ? size.width * 0.9 : size.width * 0.3,
+            height: size.width < 450 ? size.height * 0.25 : size.height * 0.5,
+            width: size.width < 450 ? size.width * 0.9 : size.width * 0.3,
             child: Center(
               child: Text(
                 "$title",

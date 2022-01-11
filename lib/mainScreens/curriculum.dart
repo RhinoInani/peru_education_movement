@@ -14,7 +14,7 @@ class Curriculum extends StatelessWidget {
       color: Colors.black,
       title: "Our Curriculum",
       child: Scaffold(
-        drawer: size.width < 400
+        drawer: size.width < 450
             ? MobileDrawer(
                 size: size,
               )

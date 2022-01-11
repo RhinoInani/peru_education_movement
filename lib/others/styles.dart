@@ -213,11 +213,11 @@ class GenericSliverAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
       elevation: 0,
-      leading: size.width < 400
+      leading: size.width < 450
           ? null
           : FittedBox(child: Image.asset("assets/pem_logo.png")),
       floating: true,
-      title: size.width < 400
+      title: size.width < 450
           ? RichText(
               textAlign: TextAlign.justify,
               text: TextSpan(
@@ -247,7 +247,7 @@ class GenericSliverAppBar extends StatelessWidget {
             )
           : null,
       backgroundColor: Colors.grey[500],
-      actions: size.width < 400 ? null : navBarActions,
+      actions: size.width < 450 ? null : navBarActions,
     );
   }
 }

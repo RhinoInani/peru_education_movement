@@ -11,9 +11,9 @@ class Tutors extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Title(
       color: Colors.black,
-      title: "Our Curriculum",
+      title: "Our Tutors",
       child: Scaffold(
-        drawer: size.width < 400
+        drawer: size.width < 450
             ? MobileDrawer(
                 size: size,
               )

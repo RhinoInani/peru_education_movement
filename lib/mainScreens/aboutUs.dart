@@ -13,7 +13,7 @@ class AboutUs extends StatelessWidget {
       color: Colors.black,
       title: "About Us",
       child: Scaffold(
-        drawer: size.width < 400
+        drawer: size.width < 450
             ? MobileDrawer(
                 size: size,
               )

@@ -31,7 +31,7 @@ class _SignUpState extends State<SignUp> {
         color: Colors.white,
         title: "Sign Up",
         child: Scaffold(
-          drawer: size.width < 400 ? MobileDrawer(size: size) : null,
+          drawer: size.width < 450 ? MobileDrawer(size: size) : null,
           body: CustomScrollView(
             slivers: [
               GenericSliverAppBar(size: size),

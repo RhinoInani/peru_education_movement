@@ -17,14 +17,14 @@ class SignUpCompleted extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      drawer: size.width < 400
+      drawer: size.width < 450
           ? MobileDrawer(
               size: size,
             )
           : null,
       appBar: AppBar(
         elevation: 0,
-        leading: size.width < 400
+        leading: size.width < 450
             ? null
             : FittedBox(child: Image.asset("assets/pem_logo.png")),
         backgroundColor: Colors.grey[500],
