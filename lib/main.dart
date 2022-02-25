@@ -1,6 +1,9 @@
+import 'dart:html' as html;
+
 import 'package:auto_animated/auto_animated.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:peru_education_movement/configure_web.dart';
 import 'package:peru_education_movement/mainScreens/aboutUs.dart';
@@ -73,12 +76,18 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
+    String aboutUsText =
+        "Project Peru was initially established as part of the Learn Care Share initiative(501(c) non profit) to offer free English classes to a few students from low-income families in a small town of Huariaca, Peru. This project was started by Mercedes Canham, a Peru Native, with the help of a few Bay Area high school students who are fluent in Spanish. Soon Ms. Canhan realized that she needed to involve more tutors to scale up this program and benefit more kids in Peru. At the pandemic's beginning, Canham reached out to us and asked if a few students from Monta Vista could teach more kids from Peruvian villages over Zoom.";
+    String whyUsText =
+        "As high schoolers who are fluent in English and have backgrounds in Spanish, we are able to bring compassion to our lessons and are able to effectively connect with our students in order to make the content enjoyable for children of all ages. We dedicate time weekly in order to plan for the class and create interactive materials that allow our students to get a more immersive experience. Despite holding classes in a group environment, we ensure that every student receives equal attention and opportunities to learn and flourish.";
+
     final List<String> imgList = [
-      'assets/books_with_graduation_hat.jpg',
-      'assets/books_with_graduation_hat.jpg',
-      'assets/books_with_graduation_hat.jpg',
-      'assets/books_with_graduation_hat.jpg',
-      'assets/books_with_graduation_hat.jpg',
+      'assets/intro1.JPG',
+      'assets/intro2.JPG',
+      'assets/intro3.JPG',
+      'assets/intro4.JPG',
+      'assets/intro5.JPG',
+      'assets/intro6.JPG',
     ];
 
     return Title(
@@ -210,7 +219,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   //About Us Screen
                   Container(
                     height: size.height,
-                    decoration: buildBackgroundDecoration(),
+                    decoration: buildBackgroundDecoration(
+                        "assets/books_with_graduation_hat.jpg"),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -260,7 +270,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ? size.width * 0.6
                                     : size.width * 0.3,
                                 child: Text(
-                                  "$lorem",
+                                  "$aboutUsText",
                                   textAlign: TextAlign.justify,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
@@ -293,89 +303,77 @@ class _HomeScreenState extends State<HomeScreen> {
                   //Why Us Screen
                   Container(
                     height: size.height,
-                    decoration: buildBackgroundDecoration(),
+                    decoration: buildBackgroundDecoration(
+                        "assets/books_with_graduation_hat.jpg"),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Flex(
-                            verticalDirection: VerticalDirection.up,
-                            direction: size.width < 450
-                                ? Axis.vertical
-                                : Axis.horizontal,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: size.width < 450
-                                    ? size.width * 0.6
-                                    : size.width * 0.3,
-                                child: Text(
-                                  "$lorem",
+                          verticalDirection: VerticalDirection.up,
+                          direction: size.width < 450
+                              ? Axis.vertical
+                              : Axis.horizontal,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: size.width < 450
+                                  ? size.width * 0.6
+                                  : size.width * 0.3,
+                              child: Text(
+                                "$whyUsText",
+                                textAlign: TextAlign.justify,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: size.longestSide * 0.015,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            ContainerSizedBox(),
+                            AnimateIfVisible(
+                              key: Key('item5'),
+                              duration: Duration(milliseconds: 500),
+                              builder: (
+                                context,
+                                Animation<double> animation,
+                              ) =>
+                                  FadeTransition(
+                                opacity: buildFadeTween().animate(animation),
+                                child: RichText(
                                   textAlign: TextAlign.justify,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: size.longestSide * 0.015,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                              ContainerSizedBox(),
-                              AnimateIfVisible(
-                                key: Key('item5'),
-                                duration: Duration(milliseconds: 500),
-                                builder: (
-                                  context,
-                                  Animation<double> animation,
-                                ) =>
-                                    FadeTransition(
-                                  opacity: buildFadeTween().animate(animation),
-                                  child: RichText(
-                                    textAlign: TextAlign.justify,
-                                    text: TextSpan(
-                                      style: TextStyle(
-                                        fontSize: size.longestSide * 0.043,
-                                        color: mainColor,
-                                      ),
-                                      children: [
-                                        TextSpan(
-                                            text: "Why ",
-                                            style: TextStyle(
-                                              color: Colors.white70,
-                                            )),
-                                        TextSpan(
-                                          text: "Us",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
+                                  text: TextSpan(
+                                    style: TextStyle(
+                                      fontSize: size.longestSide * 0.043,
+                                      color: mainColor,
                                     ),
+                                    children: [
+                                      TextSpan(
+                                          text: "Why ",
+                                          style: TextStyle(
+                                            color: Colors.white70,
+                                          )),
+                                      TextSpan(
+                                        text: "Us",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
-                            ]),
-                        // Padding(
-                        //   padding: EdgeInsets.only(top: size.height * 0.05),
-                        //   child: OutlinedButton(
-                        //     onPressed: () {},
-                        //     child: Text(
-                        //       "Why Us",
-                        //       style: TextStyle(
-                        //         fontSize: size.longestSide * 0.015,
-                        //         backgroundColor: Colors.transparent,
-                        //         color: Colors.white,
-                        //       ),
-                        //     ),
-                        //     style: buildHomeButtonStyle(),
-                        //   ),
-                        // ),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),
-                  //3 Cards Container
+
+                  ///3 Cards Container
                   Container(
                     height: size.height,
-                    decoration: buildBackgroundDecoration(),
+                    decoration: buildBackgroundDecoration("assets/main4.JPG"),
                     child: Flex(
                       direction:
                           size.width < 450 ? Axis.vertical : Axis.horizontal,
@@ -385,7 +383,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         HomePageCard(
                           keyString: 'item1',
                           title: 'Sign Up',
-                          imagePath: 'assets/books_with_graduation_hat.jpg',
+                          imagePath: 'assets/signup.JPG',
                           location: 'sign-up',
                         ),
                         Padding(
@@ -393,23 +391,25 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: HomePageCard(
                             keyString: 'item2',
                             title: 'Our\nCurriculum',
-                            imagePath: 'assets/books_with_graduation_hat.jpg',
+                            imagePath: 'assets/ourcurriculum.JPG',
                             location: 'curriculum',
                           ),
                         ),
                         HomePageCard(
                           keyString: 'item3',
                           title: 'Our Tutors',
-                          imagePath: 'assets/books_with_graduation_hat.jpg',
+                          imagePath: 'assets/ourtutors.JPG',
                           location: 'tutors',
                         ),
                       ],
                     ),
                   ),
-                  //Contact Us Screen
+
+                  ///Contact Us Screen
                   Container(
                     height: size.height,
-                    decoration: buildBackgroundDecoration(),
+                    decoration:
+                        buildBackgroundDecoration("assets/contactus.jpg"),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -452,7 +452,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ? size.width * 0.6
                               : size.width * 0.3,
                           child: Text(
-                            "Feel free to reach out with any questions using any of the links below!",
+                            "Feel free to contact us through any of the methods below and ask any questions!",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
@@ -461,11 +461,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
-                        Padding(
+                        Container(
+                          width: double.infinity,
                           padding: EdgeInsets.symmetric(
                               vertical: size.longestSide * 0.02),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                          child: Wrap(
+                            alignment: WrapAlignment.center,
+                            runSpacing: 40,
                             children: [
                               IconButton(
                                 onPressed: () {
@@ -473,6 +475,36 @@ class _HomeScreenState extends State<HomeScreen> {
                                 },
                                 color: Colors.grey[300],
                                 icon: Icon(Icons.mail_outlined),
+                              ),
+                              SizedBox(
+                                width: size.width * 0.05,
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  html.window.open(
+                                      'https://www.instagram.com/peru.education.movement/',
+                                      "_blank");
+                                },
+                                icon: FaIcon(
+                                  FontAwesomeIcons.instagram,
+                                  color: Colors.white,
+                                ),
+                                hoverColor: mainColor.withOpacity(0.3),
+                              ),
+                              SizedBox(
+                                width: size.width * 0.05,
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  html.window.open(
+                                      'https://github.com/RhinoInani/peru_education_movement',
+                                      "_blank");
+                                },
+                                icon: FaIcon(
+                                  FontAwesomeIcons.github,
+                                  color: Colors.white,
+                                ),
+                                hoverColor: mainColor.withOpacity(0.3),
                               ),
                             ],
                           ),
@@ -506,7 +538,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  BoxDecoration buildBackgroundDecoration() {
+  BoxDecoration buildBackgroundDecoration(String asset) {
     return BoxDecoration(
       color: Colors.grey[450],
       image: DecorationImage(
@@ -516,7 +548,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BlendMode.dstATop,
         ),
         image: AssetImage(
-          'assets/books_with_graduation_hat.jpg',
+          '$asset',
         ),
       ),
     );

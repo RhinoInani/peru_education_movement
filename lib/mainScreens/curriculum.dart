@@ -24,7 +24,7 @@ class Curriculum extends StatelessWidget {
             GenericSliverAppBar(size: size),
             CollapsingHeader(
               size: size,
-              imagePath: 'assets/books_with_graduation_hat.jpg',
+              imagePath: 'assets/ourcuriculumbackground.jpg',
               title: 'Our curriculum',
               fontColor: mainColor,
             ),
@@ -41,12 +41,12 @@ class Curriculum extends StatelessWidget {
                     ),
                     child: AboutUsCard(
                       size: size,
-                      bodyText: aboutUsBody[index],
-                      headerText: aboutUsHeaders[index],
+                      bodyText: curriculumBody[index],
+                      headerText: curriculumHeaders[index],
                     ),
                   );
                 },
-                childCount: aboutUsHeaders.length,
+                childCount: curriculumHeaders.length,
               ),
             ),
             SliverPadding(
