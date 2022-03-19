@@ -23,7 +23,7 @@ class Tutors extends StatelessWidget {
             GenericSliverAppBar(size: size),
             CollapsingHeader(
               size: size,
-              imagePath: 'assets/books_with_graduation_hat.jpg',
+              imagePath: 'assets/ourtutorsMain.JPG',
               title: 'Our Tutors',
               fontColor: mainColor,
             ),
@@ -33,27 +33,115 @@ class Tutors extends StatelessWidget {
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
-                  return Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: size.height * 0.01,
-                      horizontal: size.width * 0.0175,
-                    ),
-                    child: TutorsCard(
-                      size: size,
-                      bodyText: aboutUsBody[index],
-                      headerText: aboutUsHeaders[index],
-                      imagePath: 'assets/pem_logo.png',
-                      flipped: index % 2 == 0,
-                      imageHeight: size.height * 0.3,
-                      imageWidth: size.width * 0.3,
-                    ),
-                  );
+                  if (index == 0) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: size.longestSide * 0.01,
+                        horizontal: size.longestSide * 0.02,
+                      ),
+                      child: Column(
+                        children: [
+                          Text(
+                            "Founders",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: mainColor,
+                              fontSize: size.longestSide * 0.024,
+                            ),
+                          ),
+                          Divider(
+                            thickness: 0.5,
+                            color: mainColor,
+                          ),
+                          SizedBox(
+                            height: size.height * 0.03,
+                          ),
+                          TutorsCard(
+                            size: size,
+                            bodyText: tutorBio[index],
+                            headerText: tutorNames[index],
+                            imagePath: tutorImages[index],
+                            flipped: index % 2 == 0,
+                            imageHeight: size.height * 0.3,
+                            imageWidth: size.width * 0.3,
+                          )
+                        ],
+                      ),
+                    );
+                  } else {
+                    return Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: size.longestSide * 0.01,
+                          horizontal: size.longestSide * 0.02,
+                        ),
+                        child: TutorsCard(
+                          size: size,
+                          bodyText: tutorBio[index],
+                          headerText: tutorNames[index],
+                          imagePath: tutorImages[index],
+                          flipped: index % 2 == 0,
+                          imageHeight: size.height * 0.3,
+                          imageWidth: size.width * 0.3,
+                        ));
+                  }
                 },
-                childCount: aboutUsHeaders.length,
+                childCount: tutorNames.length - 8,
               ),
             ),
             SliverPadding(
               padding: EdgeInsets.all(size.longestSide * 0.03),
+            ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (BuildContext context, int index) {
+                  if (index == 0) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: size.longestSide * 0.01,
+                        horizontal: size.longestSide * 0.02,
+                      ),
+                      child: Column(
+                        children: [
+                          Text(
+                            "Our Tutors",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: mainColor,
+                              fontSize: size.longestSide * 0.024,
+                            ),
+                          ),
+                          Divider(
+                            thickness: 0.5,
+                            color: mainColor,
+                          ),
+                          SizedBox(
+                            height: size.height * 0.03,
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: size.longestSide * 0.01,
+                          horizontal: size.longestSide * 0.02,
+                        ),
+                        child: TutorsCard(
+                          size: size,
+                          bodyText: tutorBio[8 + index],
+                          headerText: tutorNames[8 + index],
+                          imagePath: tutorImages[8 + index],
+                          flipped: index % 2 == 0,
+                          imageHeight: size.height * 0.3,
+                          imageWidth: size.width * 0.3,
+                        ));
+                  }
+                },
+                childCount: tutorNames.length - 8,
+              ),
+            ),
+            SliverPadding(
+              padding: EdgeInsets.all(size.longestSide * 0.05),
             ),
           ],
         ),
@@ -115,7 +203,7 @@ class TutorsCard extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(size.longestSide * 0.005),
                   child: Image.asset(
-                    '$imagePath',
+                    "assets/tutors/$imagePath",
                     fit: BoxFit.scaleDown,
                     height: imageHeight,
                     width: imageWidth,
@@ -130,7 +218,7 @@ class TutorsCard extends StatelessWidget {
                   clipBehavior: Clip.antiAlias,
                   borderRadius: BorderRadius.circular(size.longestSide * 0.005),
                   child: Image.asset(
-                    '$imagePath',
+                    'assets/tutors/$imagePath',
                     fit: BoxFit.scaleDown,
                     height: imageHeight,
                     width: imageWidth,

@@ -23,7 +23,7 @@ class AboutUs extends StatelessWidget {
             GenericSliverAppBar(size: size),
             CollapsingHeader(
               size: size,
-              imagePath: 'assets/books_with_graduation_hat.jpg',
+              imagePath: 'assets/aboutus.jpg',
               title: 'About Us',
               fontColor: mainColor,
             ),

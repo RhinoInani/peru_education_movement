@@ -42,6 +42,8 @@ List<Widget> navBarActions = [
     checkNamed: "tutors",
     pushNamed: '/tutors',
   ),
+  NavBarButton(
+      title: 'Fundraising', checkNamed: 'fund', pushNamed: '/fundraising'),
 ];
 
 class NavBarButton extends StatelessWidget {
@@ -142,6 +144,7 @@ final List<String> drawerTitles = [
   "Sign Up",
   "Our Curriculum",
   "Our Tutors",
+  "Fundraising",
 ];
 
 final List<String> drawerOnTap = [
@@ -150,6 +153,7 @@ final List<String> drawerOnTap = [
   "/sign-up",
   "/curriculum",
   "/tutors",
+  "/fundraising"
 ];
 
 class MobileDrawer extends StatelessWidget {
@@ -248,6 +252,21 @@ class GenericSliverAppBar extends StatelessWidget {
           : null,
       backgroundColor: Colors.grey[500],
       actions: size.width < 450 ? null : navBarActions,
+    );
+  }
+}
+
+class ContainerSizedBox extends StatelessWidget {
+  const ContainerSizedBox({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return SizedBox(
+      width: size.width * 0.06,
+      height: size.height * 0.03,
     );
   }
 }

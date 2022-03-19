@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:peru_education_movement/configure_web.dart';
 import 'package:peru_education_movement/mainScreens/aboutUs.dart';
 import 'package:peru_education_movement/mainScreens/curriculum.dart';
+import 'package:peru_education_movement/mainScreens/fundraising.dart';
 import 'package:peru_education_movement/mainScreens/signUp.dart';
 import 'package:peru_education_movement/mainScreens/tutors.dart';
 import 'package:peru_education_movement/others/constants.dart';
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
         '/tutors': (context) => Tutors(),
         '/sign-up': (context) => SignUp(),
         '/sign-up/thank-you': (context) => SignUpCompleted(),
+        '/fundraising': (context) => Fundrasing(),
       },
       onUnknownRoute: (settings) {
         return MaterialPageRoute(builder: (context) {
@@ -219,8 +221,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   //About Us Screen
                   Container(
                     height: size.height,
-                    decoration: buildBackgroundDecoration(
-                        "assets/books_with_graduation_hat.jpg"),
+                    decoration: buildBackgroundDecoration("assets/main2.jpg"),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -303,8 +304,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   //Why Us Screen
                   Container(
                     height: size.height,
-                    decoration: buildBackgroundDecoration(
-                        "assets/books_with_graduation_hat.jpg"),
+                    decoration: buildBackgroundDecoration("assets/main3.jpg"),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -373,7 +373,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ///3 Cards Container
                   Container(
                     height: size.height,
-                    decoration: buildBackgroundDecoration("assets/main4.JPG"),
+                    decoration: buildBackgroundDecoration("assets/main4.jpg"),
                     child: Flex(
                       direction:
                           size.width < 450 ? Axis.vertical : Axis.horizontal,
@@ -551,21 +551,6 @@ class _HomeScreenState extends State<HomeScreen> {
           '$asset',
         ),
       ),
-    );
-  }
-}
-
-class ContainerSizedBox extends StatelessWidget {
-  const ContainerSizedBox({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return SizedBox(
-      width: size.width * 0.06,
-      height: size.height * 0.03,
     );
   }
 }

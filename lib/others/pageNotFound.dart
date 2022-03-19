@@ -22,7 +22,7 @@ class PageNotFound extends StatelessWidget {
                   mainColor.withOpacity(0.2),
                   BlendMode.dstATop,
                 ),
-                image: AssetImage('assets/bookshelfBackground1.jpeg'),
+                image: AssetImage('assets/books_with_graduation_hat.jpg'),
               ),
             ),
             child: Column(

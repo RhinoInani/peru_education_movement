@@ -37,7 +37,7 @@ class _SignUpState extends State<SignUp> {
               GenericSliverAppBar(size: size),
               CollapsingHeader(
                 size: size,
-                imagePath: 'assets/books_with_graduation_hat.jpg',
+                imagePath: 'assets/signupMain.png',
                 title: 'Sign Up',
                 fontColor: mainColor,
               ),
